@@ -2,25 +2,25 @@ package com.care4pets.care4pets.dto;
 
 import jakarta.validation.constraints.*;
 
-    public record PetRequestDTO(
+public record PetRequestDTO(
 
-            @NotBlank(message = "Name is required")
-            String name,
+        @NotBlank(message = "O nome é obrigatório")
+        String name,
 
-            @NotBlank(message = "Species is required")
-            String species,
+        @NotBlank(message = "A espécie é obrigatória")
+        String species,
 
-            @NotBlank(message = "Breed is required")
-            String breed,
+        @NotBlank(message = "A raça é obrigatória")
+        String breed,
 
-            @NotNull(message = "Age is required")
-            @Min(value = 0, message = "Age cannot be negative")
-            Integer age,
+        @NotNull(message = "A idade é obrigatória")
+        @Min(value = 0, message = "A idade não pode ser negativa")
+        Integer age,
 
-            @NotNull(message = "Weight is required")
-            @Positive(message = "Weight must be positive")
-            Double weight,
+        @NotNull(message = "O peso é obrigatório")
+        @Positive(message = "O peso deve ser maior que zero")
+        Double weight,
 
-            @NotNull(message = "Tutor ID is required")
-            Long tutorId
-    ) {}
+        @NotNull(message = "O ID do tutor é obrigatório")
+        Long tutorId
+) {}
