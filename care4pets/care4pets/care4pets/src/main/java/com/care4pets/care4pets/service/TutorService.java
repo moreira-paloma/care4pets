@@ -3,6 +3,7 @@ package com.care4pets.care4pets.service;
 import com.care4pets.care4pets.dto.TutorRequestDTO;
 import com.care4pets.care4pets.dto.TutorResponseDTO;
 import com.care4pets.care4pets.dto.PetResponseDTO;
+import com.care4pets.care4pets.exceptions.TutorNotFoundException;
 import com.care4pets.care4pets.model.Tutor;
 import com.care4pets.care4pets.repository.TutorRepository;
 import org.springframework.stereotype.Service;
@@ -38,14 +39,14 @@ public class TutorService {
 
     public TutorResponseDTO getById(Long id) {
         Tutor tutor = tutorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tutor not found"));
+                .orElseThrow(() -> new TutorNotFoundException(id));
 
         return toResponse(tutor);
     }
 
     public TutorResponseDTO update(Long id, TutorRequestDTO dto) {
         Tutor tutor = tutorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tutor not found"));
+                .orElseThrow(() -> new TutorNotFoundException(id));
 
         tutor.setName(dto.name());
         tutor.setPhone(dto.phone());
@@ -57,12 +58,19 @@ public class TutorService {
     }
 
     public void delete(Long id) {
-        tutorRepository.deleteById(id);
+        Tutor tutor = tutorRepository.findById(id)
+                .orElseThrow(() -> new TutorNotFoundException(id));
+
+        if (!tutor.getPets().isEmpty()) {
+            throw new RuntimeException("Não é possível excluir tutor com pets cadastrados");
+        }
+
+        tutorRepository.delete(tutor);
     }
 
     public List<PetResponseDTO> getPetsByTutor(Long id) {
         Tutor tutor = tutorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tutor not found"));
+                .orElseThrow(() -> new TutorNotFoundException(id));
 
         return tutor.getPets()
                 .stream()
@@ -77,6 +85,27 @@ public class TutorService {
                         tutor.getName()
                 ))
                 .toList();
+    }
+
+    public List<TutorResponseDTO> searchByName(String name) {
+        return tutorRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public TutorResponseDTO findByEmail(String email) {
+        Tutor tutor = tutorRepository.findByEmail(email)
+                .orElseThrow(() -> new TutorNotFoundException(null));
+
+        return toResponse(tutor);
+    }
+
+    public TutorResponseDTO findByPhone(String phone) {
+        Tutor tutor = tutorRepository.findByPhone(phone)
+                .orElseThrow(() -> new TutorNotFoundException(null));
+
+        return toResponse(tutor);
     }
 
     private TutorResponseDTO toResponse(Tutor tutor) {

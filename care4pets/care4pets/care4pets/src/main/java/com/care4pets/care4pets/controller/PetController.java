@@ -42,4 +42,35 @@ public class PetController {
     public void delete(@PathVariable Long id) {
         petService.delete(id);
     }
+
+
+    @GetMapping("/species")
+    public List<PetResponseDTO> findBySpecies(@RequestParam String species) {
+        return petService.findBySpecies(species);
+    }
+
+    @GetMapping("/tutor/{tutorId}")
+    public List<PetResponseDTO> findByTutor(@PathVariable Long tutorId) {
+        return petService.findByTutor(tutorId);
+    }
+
+    @GetMapping("/age/min")
+    public List<PetResponseDTO> findByAgeMin(@RequestParam Integer age) {
+        return petService.findByAgeMin(age);
+    }
+
+    @GetMapping("/age/max")
+    public List<PetResponseDTO> findByAgeMax(@RequestParam Integer age) {
+        return petService.findByAgeMax(age);
+    }
+
+    @GetMapping("/weight/min")
+    public List<PetResponseDTO> findByWeightMin(@RequestParam Double weight) {
+        return petService.findByWeightMin(weight);
+    }
+
+    @GetMapping("/weight/max")
+    public List<PetResponseDTO> findByWeightMax(@RequestParam Double weight) {
+        return petService.findByWeightMax(weight);
+    }
 }

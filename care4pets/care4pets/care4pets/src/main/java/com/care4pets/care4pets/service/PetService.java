@@ -2,6 +2,7 @@ package com.care4pets.care4pets.service;
 
 import com.care4pets.care4pets.dto.PetRequestDTO;
 import com.care4pets.care4pets.dto.PetResponseDTO;
+import com.care4pets.care4pets.exceptions.PetNotFoundException;
 import com.care4pets.care4pets.model.Pet;
 import com.care4pets.care4pets.model.Tutor;
 import com.care4pets.care4pets.repository.PetRepository;
@@ -21,6 +22,7 @@ public class PetService {
         this.tutorRepository = tutorRepository;
     }
 
+
     public PetResponseDTO create(PetRequestDTO dto) {
         Tutor tutor = tutorRepository.findById(dto.tutorId())
                 .orElseThrow(() -> new RuntimeException("Tutor not found"));
@@ -35,9 +37,9 @@ public class PetService {
                 .build();
 
         Pet saved = petRepository.save(pet);
-
         return toResponse(saved);
     }
+
 
     public List<PetResponseDTO> list() {
         return petRepository.findAll()
@@ -46,16 +48,18 @@ public class PetService {
                 .toList();
     }
 
+
     public PetResponseDTO getById(Long id) {
         Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pet not found"));
+                .orElseThrow(() -> new PetNotFoundException(id));
 
         return toResponse(pet);
     }
 
+
     public PetResponseDTO update(Long id, PetRequestDTO dto) {
         Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pet not found"));
+                .orElseThrow(() -> new PetNotFoundException(id));
 
         Tutor tutor = tutorRepository.findById(dto.tutorId())
                 .orElseThrow(() -> new RuntimeException("Tutor not found"));
@@ -68,13 +72,60 @@ public class PetService {
         pet.setTutor(tutor);
 
         Pet updated = petRepository.save(pet);
-
         return toResponse(updated);
     }
 
+
     public void delete(Long id) {
-        petRepository.deleteById(id);
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> new PetNotFoundException(id));
+
+        petRepository.delete(pet);
     }
+
+
+    public List<PetResponseDTO> findBySpecies(String species) {
+        return petRepository.findBySpeciesIgnoreCase(species)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public List<PetResponseDTO> findByTutor(Long tutorId) {
+        return petRepository.findByTutorId(tutorId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public List<PetResponseDTO> findByAgeMin(Integer age) {
+        return petRepository.findByAgeGreaterThanEqual(age)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public List<PetResponseDTO> findByAgeMax(Integer age) {
+        return petRepository.findByAgeLessThanEqual(age)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public List<PetResponseDTO> findByWeightMin(Double weight) {
+        return petRepository.findByWeightGreaterThanEqual(weight)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    public List<PetResponseDTO> findByWeightMax(Double weight) {
+        return petRepository.findByWeightLessThanEqual(weight)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
 
     private PetResponseDTO toResponse(Pet pet) {
         return new PetResponseDTO(

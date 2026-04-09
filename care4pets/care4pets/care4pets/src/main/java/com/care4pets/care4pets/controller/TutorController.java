@@ -48,4 +48,19 @@ public class TutorController {
     public List<PetResponseDTO> getPetsByTutor(@PathVariable Long id) {
         return tutorService.getPetsByTutor(id);
     }
+    @GetMapping("/search")
+    public List<TutorResponseDTO> searchByName(@RequestParam String name) {
+        return tutorService.searchByName(name);
+    }
+
+    @GetMapping("/email")
+    public TutorResponseDTO findByEmail(@RequestParam String email) {
+        return tutorService.findByEmail(email);
+    }
+
+    @GetMapping("/phone")
+    public TutorResponseDTO findByPhone(@RequestParam String phone) {
+        return tutorService.findByPhone(phone);
+    }
 }
+
