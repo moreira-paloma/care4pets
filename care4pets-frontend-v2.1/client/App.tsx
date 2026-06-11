@@ -11,6 +11,10 @@ import Dashboard from "./pages/Dashboard";
 import Report from "./pages/Report";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import { Layout } from "./components/Layout";
+import Cadastro from "./pages/Cadastro";
+
 
 const queryClient = new QueryClient();
 
@@ -27,6 +31,10 @@ const App = () => (
           <Route path="/about" element={<About />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+
+
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

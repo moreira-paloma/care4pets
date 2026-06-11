@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart } from "lucide-react";
+import { Outlet } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,36 +12,31 @@ export function Layout({ children }: LayoutProps) {
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-sm">
         <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-bold text-2xl">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-              <Heart className="w-6 h-6 text-white" fill="white" />
-            </div>
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Care4Pets
-            </span>
+            <img
+              src="/images/logo-care4pets.png"
+              alt="Care4Pets Logo"
+             className="w-18 h-28 object-contain"
+
+            />
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
             <Link
               to="/"
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-lg text-primary hover:text-primary/80 transition-colors font-medium"
             >
               Início
             </Link>
-            <Link
-              to="/dashboard"
-              className="text-foreground hover:text-primary transition-colors font-medium"
-            >
-              Dashboard
-            </Link>
+         
             <Link
               to="/report"
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-lg text-foreground hover:text-primary transition-colors font-medium"
             >
               Denunciar
             </Link>
             <Link
               to="/about"
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-lg text-primary hover:text-primary/80 transition-colors font-medium"
             >
               Sobre
             </Link>
@@ -67,12 +62,11 @@ export function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 font-bold text-xl mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-white" fill="white" />
-                </div>
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Care4Pets
-                </span>
+                <img
+                  src="/images/logo-care4pets.png"
+                  alt="Care4Pets Logo"
+                  className="w-25 h-25 object-contain"
+                />
               </div>
               <p className="text-muted-foreground text-sm">
                 Cuidando de animais de estimação, um registro por vez.

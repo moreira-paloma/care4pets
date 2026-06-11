@@ -9,6 +9,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
@@ -19,7 +20,7 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-slide-up">
               <div className="inline-block bg-orange-100 text-primary px-4 py-2 rounded-full text-sm font-semibold">
-                🐾 Cuide dos seus pets com amor
+                🐾 Cuide dos seus pets com muito amor
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold leading-tight text-foreground">
@@ -35,10 +36,13 @@ export default function Index() {
               </p>
 
               <div className="pt-4">
-                <button className="btn-primary group">
+                <Link
+                  to="/cadastro"
+                  className="btn-primary group inline-flex items-center"
+                >
                   Cadastre aqui o seu animal
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -225,6 +229,7 @@ export default function Index() {
           </div>
         </div>
       </section>
+
       {/* Why Use Care4Pets Section */}
       <section className="py-20 md:py-32 bg-gradient-to-br from-green-50 to-orange-50">
         <div className="container mx-auto px-4">
@@ -304,9 +309,12 @@ export default function Index() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 rounded-lg bg-white text-primary font-bold hover:shadow-2xl hover:scale-105 transition-all">
+              <Link
+                to="/cadastro"
+                className="px-8 py-4 rounded-lg bg-white text-primary font-bold hover:shadow-2xl hover:scale-105 transition-all inline-block"
+              >
                 Cadastrar aqui
-              </button>
+              </Link>
             </div>
           </div>
         </div>
