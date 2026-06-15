@@ -1,5 +1,6 @@
 import { Layout } from "@/components/Layout";
 import { useState } from "react";
+import { createPet } from "@/services/petService";
 
 export default function Cadastro() {
   const [form, setForm] = useState({
@@ -8,6 +9,9 @@ export default function Cadastro() {
     raca: "",
     peso: "",
     caracteristicas: "",
+    tutorNome: "",
+    tutorTelefone: "",
+    tutorEmail: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -22,16 +26,21 @@ export default function Cadastro() {
     setLoading(true);
     setMensagem("");
 
-    try {
-      const response = await fetch("http://localhost:8080/pets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar");
+    const pet = {
+      name: form.nome,
+      species: "Dog",
+      breed: form.raca,
+      age: Number(form.idade),
+      weight: Number(form.peso),
+      tutor: {
+        name: form.tutorNome,
+        phone: form.tutorTelefone,
+        email: form.tutorEmail
       }
+    };
+
+    try {
+      await createPet(pet);
 
       setMensagem("Pet cadastrado com sucesso!");
       setForm({
@@ -40,8 +49,12 @@ export default function Cadastro() {
         raca: "",
         peso: "",
         caracteristicas: "",
+        tutorNome: "",
+        tutorTelefone: "",
+        tutorEmail: ""
       });
     } catch (error) {
+      console.error(error);
       setMensagem("Erro ao cadastrar o pet.");
     } finally {
       setLoading(false);
@@ -51,8 +64,6 @@ export default function Cadastro() {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-20 flex justify-center">
-        
-        {/* CARD COM FUNDO LARANJA */}
         <div className="w-full max-w-lg bg-orange-100 p-10 rounded-2xl shadow-xl border border-orange-200">
           <h1 className="text-3xl font-bold mb-6 text-center text-primary">
             Cadastro do Animal
@@ -104,6 +115,38 @@ export default function Cadastro() {
               onChange={handleChange}
               className="w-full p-3 border rounded-lg"
               rows={4}
+            />
+
+            <h2 className="text-xl font-semibold mt-6">Tutor</h2>
+
+            <input
+              type="text"
+              name="tutorNome"
+              placeholder="Nome do tutor"
+              value={form.tutorNome}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg"
+              required
+            />
+
+            <input
+              type="text"
+              name="tutorTelefone"
+              placeholder="Telefone do tutor"
+              value={form.tutorTelefone}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg"
+              required
+            />
+
+            <input
+              type="email"
+              name="tutorEmail"
+              placeholder="Email do tutor"
+              value={form.tutorEmail}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg"
+              required
             />
 
             <button

@@ -1,21 +1,71 @@
+import { useState } from "react";
 import { Layout } from "@/components/Layout";
-import { Zap } from "lucide-react";
 
 export default function Dashboard() {
+  const [alimentacao, setAlimentacao] = useState(false);
+  const [passeio, setPasseio] = useState(false);
+  const [vacina, setVacina] = useState(false);
+  const [obs, setObs] = useState("");
+
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-md mx-auto">
-          <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <Zap className="w-8 h-8 text-white" />
+      <div className="container mx-auto px-4 py-20">
+        <h1 className="text-3xl font-bold text-center mb-10 text-primary">
+          Acompanhamento Diário
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <div className="bg-orange-100 p-6 rounded-xl shadow border border-orange-200">
+            <h2 className="text-xl font-semibold mb-4">Alimentação</h2>
+            <p className="mb-4">Horário da comida: 08:00 / 18:00</p>
+            <button
+              onClick={() => setAlimentacao(!alimentacao)}
+              className={`w-full py-2 rounded-lg text-white font-semibold ${
+                alimentacao ? "bg-green-600" : "bg-primary"
+              }`}
+            >
+              {alimentacao ? "Marcado como feito" : "Marcar como feito"}
+            </button>
           </div>
-          <h1 className="text-3xl font-bold mb-4">Dashboard em Breve</h1>
-          <p className="text-muted-foreground mb-6">
-            O recurso de dashboard está em desenvolvimento. Aqui você poderá acompanhar a saúde dos seus pets, gerenciar registros e visualizar análises.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Continue construindo esta página no app para mostrar acompanhamento de saúde dos pets, registros de vacinação, horários de alimentação e muito mais.
-          </p>
+
+          <div className="bg-orange-100 p-6 rounded-xl shadow border border-orange-200">
+            <h2 className="text-xl font-semibold mb-4">Passeio</h2>
+            <p className="mb-4">Passeio recomendado: 30 minutos</p>
+            <button
+              onClick={() => setPasseio(!passeio)}
+              className={`w-full py-2 rounded-lg text-white font-semibold ${
+                passeio ? "bg-green-600" : "bg-primary"
+              }`}
+            >
+              {passeio ? "Marcado como feito" : "Marcar como feito"}
+            </button>
+          </div>
+
+          <div className="bg-orange-100 p-6 rounded-xl shadow border border-orange-200">
+            <h2 className="text-xl font-semibold mb-4">Vacinas</h2>
+            <p className="mb-4">Próxima vacina: 20/07/2026</p>
+            <button
+              onClick={() => setVacina(!vacina)}
+              className={`w-full py-2 rounded-lg text-white font-semibold ${
+                vacina ? "bg-green-600" : "bg-primary"
+              }`}
+            >
+              {vacina ? "Marcado como atualizado" : "Marcar como atualizado"}
+            </button>
+          </div>
+
+          <div className="bg-orange-100 p-6 rounded-xl shadow border border-orange-200">
+            <h2 className="text-xl font-semibold mb-4">Observações</h2>
+            <textarea
+              value={obs}
+              onChange={(e) => setObs(e.target.value)}
+              className="w-full p-3 border rounded-lg"
+              rows={4}
+              placeholder="Escreva algo sobre o dia do pet..."
+            />
+          </div>
+
         </div>
       </div>
     </Layout>
