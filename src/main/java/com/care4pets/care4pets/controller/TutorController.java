@@ -1,8 +1,10 @@
 package com.care4pets.care4pets.controller;
 
-import com.care4pets.care4pets.model.Pet;
-import com.care4pets.care4pets.model.Tutor;
+import com.care4pets.care4pets.dto.TutorRequestDTO;
+import com.care4pets.care4pets.dto.TutorResponseDTO;
+import com.care4pets.care4pets.dto.PetResponseDTO;
 import com.care4pets.care4pets.service.TutorService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +20,23 @@ public class TutorController {
     }
 
     @PostMapping
-    public Tutor create(@RequestBody Tutor tutor) {
-        return tutorService.create(tutor);
+    public TutorResponseDTO create(@RequestBody @Valid TutorRequestDTO dto) {
+        return tutorService.create(dto);
     }
 
     @GetMapping
-    public List<Tutor> list() {
+    public List<TutorResponseDTO> list() {
         return tutorService.list();
     }
 
     @GetMapping("/{id}")
-    public Tutor getById(@PathVariable Long id) {
+    public TutorResponseDTO getById(@PathVariable Long id) {
         return tutorService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public Tutor update(@PathVariable Long id, @RequestBody Tutor tutor) {
-        return tutorService.update(id, tutor);
+    public TutorResponseDTO update(@PathVariable Long id, @RequestBody @Valid TutorRequestDTO dto) {
+        return tutorService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
@@ -43,8 +45,22 @@ public class TutorController {
     }
 
     @GetMapping("/{id}/pets")
-    public List<Pet> getPetsByTutor(@PathVariable Long id) {
-        Tutor tutor = tutorService.getById(id);
-        return tutor.getPets();
+    public List<PetResponseDTO> getPetsByTutor(@PathVariable Long id) {
+        return tutorService.getPetsByTutor(id);
+    }
+    @GetMapping("/search")
+    public List<TutorResponseDTO> searchByName(@RequestParam String name) {
+        return tutorService.searchByName(name);
+    }
+
+    @GetMapping("/email")
+    public TutorResponseDTO findByEmail(@RequestParam String email) {
+        return tutorService.findByEmail(email);
+    }
+
+    @GetMapping("/phone")
+    public TutorResponseDTO findByPhone(@RequestParam String phone) {
+        return tutorService.findByPhone(phone);
     }
 }
+
