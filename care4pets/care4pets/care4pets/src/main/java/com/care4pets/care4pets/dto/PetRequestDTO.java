@@ -21,6 +21,6 @@ public record PetRequestDTO(
         @Positive(message = "O peso deve ser maior que zero")
         Double weight,
 
-        @NotNull(message = "O ID do tutor é obrigatório")
-        Long tutorId
+
+        TutorRequestDTO tutor
 ) {}

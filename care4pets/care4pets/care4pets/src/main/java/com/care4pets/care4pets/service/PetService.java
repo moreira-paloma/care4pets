@@ -22,10 +22,19 @@ public class PetService {
         this.tutorRepository = tutorRepository;
     }
 
-
     public PetResponseDTO create(PetRequestDTO dto) {
-        Tutor tutor = tutorRepository.findById(dto.tutorId())
-                .orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        Tutor tutor = null;
+
+        if (dto.tutor() != null) {
+            tutor = Tutor.builder()
+                    .name(dto.tutor().name())
+                    .phone(dto.tutor().phone())
+                    .email(dto.tutor().email())
+                    .build();
+
+            tutor = tutorRepository.save(tutor);
+        }
 
         Pet pet = Pet.builder()
                 .name(dto.name())
@@ -40,14 +49,12 @@ public class PetService {
         return toResponse(saved);
     }
 
-
     public List<PetResponseDTO> list() {
         return petRepository.findAll()
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
-
 
     public PetResponseDTO getById(Long id) {
         Pet pet = petRepository.findById(id)
@@ -56,13 +63,21 @@ public class PetService {
         return toResponse(pet);
     }
 
-
     public PetResponseDTO update(Long id, PetRequestDTO dto) {
         Pet pet = petRepository.findById(id)
                 .orElseThrow(() -> new PetNotFoundException(id));
 
-        Tutor tutor = tutorRepository.findById(dto.tutorId())
-                .orElseThrow(() -> new RuntimeException("Tutor not found"));
+        Tutor tutor = pet.getTutor();
+
+        if (dto.tutor() != null) {
+            Tutor newTutor = Tutor.builder()
+                    .name(dto.tutor().name())
+                    .phone(dto.tutor().phone())
+                    .email(dto.tutor().email())
+                    .build();
+
+            tutor = tutorRepository.save(newTutor);
+        }
 
         pet.setName(dto.name());
         pet.setSpecies(dto.species());
@@ -75,14 +90,12 @@ public class PetService {
         return toResponse(updated);
     }
 
-
     public void delete(Long id) {
         Pet pet = petRepository.findById(id)
                 .orElseThrow(() -> new PetNotFoundException(id));
 
         petRepository.delete(pet);
     }
-
 
     public List<PetResponseDTO> findBySpecies(String species) {
         return petRepository.findBySpeciesIgnoreCase(species)
@@ -126,8 +139,9 @@ public class PetService {
                 .toList();
     }
 
-
     private PetResponseDTO toResponse(Pet pet) {
+        Tutor tutor = pet.getTutor();
+
         return new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
@@ -135,8 +149,8 @@ public class PetService {
                 pet.getBreed(),
                 pet.getAge(),
                 pet.getWeight(),
-                pet.getTutor().getId(),
-                pet.getTutor().getName()
+                tutor != null ? tutor.getId() : null,
+                tutor != null ? tutor.getName() : null
         );
     }
 }

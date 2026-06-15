@@ -96,14 +96,18 @@ public class TutorService {
 
     public TutorResponseDTO findByEmail(String email) {
         Tutor tutor = tutorRepository.findByEmail(email)
-                .orElseThrow(() -> new TutorNotFoundException(null));
+                .orElseThrow(() ->
+                        new TutorNotFoundException("Tutor com email " + email + " não encontrado")
+                );
 
         return toResponse(tutor);
     }
 
     public TutorResponseDTO findByPhone(String phone) {
         Tutor tutor = tutorRepository.findByPhone(phone)
-                .orElseThrow(() -> new TutorNotFoundException(null));
+                .orElseThrow(() ->
+                        new TutorNotFoundException("Tutor com telefone " + phone + " não encontrado")
+                );
 
         return toResponse(tutor);
     }
