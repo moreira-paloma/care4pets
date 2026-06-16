@@ -1,0 +1,39 @@
+### Criando o pet
+POST http://localhost:8080/pets
+Content-Type: application/json
+
+{
+  "name": "Valentina",
+  "species": "Dog",
+  "breed": "SRD",
+  "age": 16,
+  "weight": 6.0
+}
+
+### Listando os pets
+GET http://localhost:8080/pets
+
+### Buscar pet por ID
+GET http://localhost:8080/pets/1
+
+### Atualizando pet (PUT)
+PUT http://localhost:8080/pets/2
+Content-Type: application/json
+
+{
+  "name": "Pedrinho",
+  "species": "Dog",
+  "breed": "Dachshund",
+  "age": 8,
+  "weight": 9
+}
+
+### Criar os tutores
+POST http://localhost:8080/tutors
+Content-Type: application/json
+
+{
+  "name": "Paloma Moreira",
+  "phone": "11988888888",
+  "email": "paloma@testando.com"
+}
